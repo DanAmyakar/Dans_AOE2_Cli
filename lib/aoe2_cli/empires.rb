@@ -4,5 +4,6 @@
 class Empires
 
     puts 'Empires class is loaded.'
+    
 
 end
