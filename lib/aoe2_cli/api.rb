@@ -1,17 +1,22 @@
 # frozen_string_literal: true
 
-
 class Api
 
     CIV_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations"
-    UNIT_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/units"
-    STRUC_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/structures"
-    TECH_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/technologies"
+    
+    #UNIT_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/units"
+    #STRUC_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/structures"
+    #TECH_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/technologies"
 
-    def get_civs
-        binding.pry
-        res = RestClient.get("#{CIV_URL}")
-        data = JSON.parse(res.body) 
+    def self.get_civs
+        res = RestClient.get(CIV_URL)
+        data = JSON.parse(res.body)
+        data["civilizations"].each do |civ|
+            id = civ["id"]
+            name = civ["name"]
+            Civilization.new(id, name)
+        end
+
     end
 
     #def get_units

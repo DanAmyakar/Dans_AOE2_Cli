@@ -8,7 +8,6 @@ class Civilization
     @@all = []
     
     def initialize(id, name)
-        binding.pry
         @id = id
         @name = name
         save
