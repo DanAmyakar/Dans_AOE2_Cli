@@ -12,8 +12,6 @@ class Cli
         while input != "leave"
             puts "Welcome to the Age of Empires 2 Cli!"
             puts "To list all civilizations, type 'civs'."
-            # if i want more info after selecting civs
-            #ill need another loop
             puts "To list all units, type 'units'."
             puts "To list all structures, type 'strucs'."
             puts "To list all technologies, type 'techs'."
