@@ -14,7 +14,11 @@ class Api
         data["civilizations"].each do |civ|
             id = civ["id"]
             name = civ["name"]
-            Civilization.new(id, name)
+            expansion = civ["expansion"]
+            army_type = civ["army_type"]
+            team_bonus = civ["team_bonus"]
+            civilization_bonus = civ["civilization_bonus"]
+            Civilization.new(id, name, expansion, army_type, team_bonus, civilization_bonus)
         end
 
     end
