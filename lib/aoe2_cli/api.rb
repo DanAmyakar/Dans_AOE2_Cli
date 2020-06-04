@@ -10,7 +10,7 @@ class Api
 
 
     # This method grabs all of the civ info
-    def self.civs
+    def self.get_civs
         res = RestClient.get(CIV_URL)
         data = JSON.parse(res.body)
         data["civilizations"].each do |attrs|
@@ -20,7 +20,7 @@ class Api
     end
 
     # This method gets all of the uit info
-    def self.units
+    def self.get_units
         res = RestClient.get("#{UNIT_URL}")
         data = JSON.parse(res.body)
         data["units"].each do |unit|
@@ -31,7 +31,7 @@ class Api
     end
 
     # This method gets all of the structure info
-    def self.strucs
+    def self.get_strucs
         res = RestClient.get("#{STRUC_URL}")
         data = JSON.parse(res.body)
         data["structures"].each do |struc|
@@ -42,7 +42,7 @@ class Api
     end
 
     # This method gets all of the technology info
-    def self.techs
+    def self.get_techs
         res = RestClient.get("#{TECH_URL}")
         data = JSON.parse(res.body)
         data["technologies"].each do |tech|

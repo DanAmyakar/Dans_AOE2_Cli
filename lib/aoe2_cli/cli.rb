@@ -26,13 +26,15 @@ class Cli
     end
 
     # Returns to the main menu when the user inputs back from a submenu
-    def main_menu_request(input)
+    def main_menu_request?(input)
         main if input == "back"
+    end
 
     # Checks the user input for a valid response from the main menu
     def main_valid_input?(input)
-        if !(input == "leave" || input == "civs" || input == "units" || input == "strucs" || input == "tech")
+        if !(input == "leave" || input == "civs" || input == "units" || input == "strucs" || input == "techs")
             puts "That is not a valid response. Please try again."
+            main
         end
     end
 
@@ -40,6 +42,7 @@ class Cli
     def sub_valid_input(input)
         if (input < 1 || input > selected_class.all.size || input != "back")
             puts "That is not a valid response. Please try again."
+            submenu
         end
     end
 
@@ -53,114 +56,47 @@ class Cli
     end   
 
     def main
+        input = ""
         main_options
         footer_one
-        main_input = gets.stip
+        main_input = gets.chomp
         main_valid_input?(main_input)
         leave_request(main_input)
     end
 
-    def submenu
-        get_list
+    def get_or_create_list
+        selected_class = Civilization if main_input == "civs"
+        selected_class = Unit if main_input == "units"
+        selected_class = Structure if main_input == "strucs"
+        selected_class = Technology if main_input == "techs"
+        selected_class.fill_with_api if selected_class.all = nil
+        selected_class.list
         
+        #need to write a method that either gets a list or makes an api call then gets the list
+    end
+
+    def get_info_from_id
+        # some methods that call the class, sorts though the list and returns more info.
+    end
+
+    def sub_options
+        puts "For more info, type an ID#."
+        puts "To go back to the main manu, type 'back'."
+    end
+
+    def submenu
+        get_or_create_list
+        sub_options
+        sub_input = get.strip
+        sub_valid_input?(sub_input)
+        main_menu_request?(sub_input)
+        get_info_from_id(sub_input)
+    end
 
     # Opening method?? need to ask michael about the 'bin/run' file
     def run
         header
         main
-    end
-
-
-
-
-
-        Api.get_civs
-        face
-    end
-
-    def face
-        input = ""
-        while input != "leave"
-            puts "Main menu:"
-            puts "To list all civilizations, type 'civs'."
-            puts "To list all units, type 'units'."
-            puts "To list all structures, type 'strucs'."
-            puts "To list all technologies, type 'techs'."
-            puts "To exit, type 'leave'."
-
-            input = gets.strip
-            first_valid_input?(input)
-
-            case input
-            when 'civs'
-                civ_sub_menu
-            when 'units'
-                list_units
-            when 'strucs'
-                list_strucs
-            when 'tech'
-                list_techs
-            end
-        end
-        puts "Goodbye."
-    end
-
-    # If civ is selected from main menu...
-    def civ_sub_menu
-        puts "Civ selector menu:"
-        list_civs
-        puts "For more information about a particular civ, type its ID#."
-        puts "To go back to the main menu, type 'back'."
-            
-        civ_id = ""
-        civ_id = gets.strip.to_i
-        second_valid_input?(civ_id)
-        Api.civ_more_info(civ_id)
-    end
-
-    # The following methods get the full list of id's and names of a class
-    # Could probably clean this up with a single method
-    def list_civs
-        Civilization.all.each{|civ| puts "#{civ.id}. #{civ.name}"}
-    end
-
-    def list_units
-        Unit.all.each{|unit| puts "#{unit.id}. #{unit.name}"}
-    end
-
-    def list_strucs
-        Structure.all.each{|struc| puts "#{struc.id}. #{struc.name}"}
-    end
-
-    def list_techs
-        Technology.all.each{|tech| puts "#{tech.id}. #{tech.name}"}
-    end
-
-    # The following methods check for a valid input
-    # This one checks the first input
-    def first_valid_input?(input)
-        if input == "civs"
-            true
-        elsif input == "units"
-            true
-        elsif input == "strucs"
-            true
-        elsif input == "tech"
-            true
-        else
-            false
-            puts "That is an invalid response. Please try again."
-        end
-    end
-
-    # This one checks if a civ id was selected (1-18)
-    def second_valid_input?(input)
-        if (input >= 1 || input <= (Civilization.all.size))
-            true
-        else
-            false
-            puts "That is an invalid response. Please try again."
-        end
     end
 
 end

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class Civilization
+class Technology
 
     def self.fill_with_api
-        Api.get_civs
+        Api.get_tech
     end
 
     attr_reader :id, :name, :expansion, :army_type, :team_bonus, :civ_bonus
