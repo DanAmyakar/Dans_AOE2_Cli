@@ -4,38 +4,52 @@ class Api
 
     CIV_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/civilizations"
     
-    #UNIT_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/units"
-    #STRUC_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/structures"
-    #TECH_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/technologies"
+    UNIT_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/units"
+    STRUC_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/structures"
+    TECH_URL = "https://age-of-empires-2-api.herokuapp.com/api/v1/technologies"
 
-    def self.get_civs
+
+    # This method grabs all of the civ info
+    def self.civs
         res = RestClient.get(CIV_URL)
         data = JSON.parse(res.body)
-        data["civilizations"].each do |civ|
-            id = civ["id"]
-            name = civ["name"]
-            expansion = civ["expansion"]
-            army_type = civ["army_type"]
-            team_bonus = civ["team_bonus"]
-            civilization_bonus = civ["civilization_bonus"]
-            Civilization.new(id, name, expansion, army_type, team_bonus, civilization_bonus)
+        data["civilizations"].each do |attrs|
+            Civilization.new(attrs)
         end
 
     end
 
-    #def get_units
-    #    res = RestClient.get("#{UNIT_URL}")
-    #    data = JSON.parse(res.body)
-    #end
+    # This method gets all of the uit info
+    def self.units
+        res = RestClient.get("#{UNIT_URL}")
+        data = JSON.parse(res.body)
+        data["units"].each do |unit|
+            id = unit["id"]
+            name = unit["name"]
+            Unit.new(id, name)
+        end
+    end
 
-    #def get_strucs
-    #    res = RestClient.get("#{STRUC_URL}")
-    #    data = JSON.parse(res.body)
-    #end
+    # This method gets all of the structure info
+    def self.strucs
+        res = RestClient.get("#{STRUC_URL}")
+        data = JSON.parse(res.body)
+        data["structures"].each do |struc|
+            id = struc["id"]
+            name = struc["name"]
+            Structure.new(id, name)
+        end
+    end
 
-    #def get_techs
-    #    res = RestClient.get("#{TECH_URL}")
-    #    data = JSON.parse(res.body)
-    #end
+    # This method gets all of the technology info
+    def self.techs
+        res = RestClient.get("#{TECH_URL}")
+        data = JSON.parse(res.body)
+        data["technologies"].each do |tech|
+            id = tech["id"]
+            name = tech["name"]
+            Tech.new(id, name)
+        end
+    end
 
 end

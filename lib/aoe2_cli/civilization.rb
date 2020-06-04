@@ -3,16 +3,11 @@
 
 class Civilization
 
-    attr_accessor :id, :name, :expansion, :army_type, :team_bonus, :civ_bonus
+    attr_reader :id, :name, :expansion, :army_type, :team_bonus, :civ_bonus
     @@all = []
     
-    def initialize(id, name, expansion, army_type, team_bonus, civilization_bonus)
-        @id = id
-        @name = name
-        @expansion = expansion
-        @army_type = army_type
-        @team_bonus = team_bonus
-        @civ_bonus = civilization_bonus
+    def initialize(attrs) 
+        attrs.each {|attr_key, attr_val| self.send(("#{attr_key}="), attr_val)}
         save
     end
 
@@ -24,13 +19,12 @@ class Civilization
         @@all
     end
 
-    def more_info
-        puts "#{@id}. The #{@name}'s have an army type of #{@army_type} and is available in the #{@expansion}.  Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
+    def find_by_id(chosen_id)
+        chosen_civ = @@all.select{|civ| civ.id == chosen_id}
     end
 
-    def self.find_by_id(input)
-        select_civ = nil
-        select_civ = self.all.select{|civ| civ.id == input}
-        select_civ.more_info
+    def more_info(chosen_id)
+        find_by_id(chosen_id)
+        print "#{@id}. The #{@name}'s have an army type of #{@army_type} and is available in the #{@expansion} expansion.  Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
     end
 end

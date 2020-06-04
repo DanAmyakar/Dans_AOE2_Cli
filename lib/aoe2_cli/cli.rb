@@ -9,21 +9,20 @@ class Cli
     end
 
     def face
-        input_one = ""
-        while input_one != "leave"
+        input = ""
+        while input != "leave"
             puts "To list all civilizations, type 'civs'."
             puts "To list all units, type 'units'."
             puts "To list all structures, type 'strucs'."
             puts "To list all technologies, type 'techs'."
             puts "To exit, type 'leave'."
 
-            input_one = gets.strip
-            first_valid_input?(input_one)
+            input = gets.strip
+            first_valid_input?(input)
 
-            case input_one
+            case input
             when 'civs'
-                list_civs
-                select_option_civs
+                civ_sub_menu
             when 'units'
                 list_units
             when 'strucs'
@@ -35,46 +34,45 @@ class Cli
         puts "Goodbye."
     end
 
+    def civ_sub_menu
+        list_civs
+        puts "For more information about a particular civ, type its ID#."
+        puts "To go back to the main menu, type 'back'."
+            
+        civ_id = ""
+        civ_id = gets.strip.to_i
+        second_valid_input?(civ_id)
+        Api.civ_more_info(civ_id)
+    end
+
+    # The following methods get the full list of id's and names of a class
+    # Could probably clean this up with a single method
     def list_civs
         Civilization.all.each{|civ| puts "#{civ.id}. #{civ.name}"}
     end
 
-    def select_option_civs
-        input_two = ""
-        while input_two != "back"
-            puts "For more information about a particular civ, type its ID#."
-            puts "To go back to the main menu, type 'back'."
-            
-            input_two = gets.strip.to_i
-            second_valid_input?(input_two)
-            
-            case input_two
-            when (second_valid_input? == true)
-                Civilization.find_by_id(input_two).more_info
-            end
-        end
-    end
-
     def list_units
-        puts 'this option is temporarly unavailable.'
+        Unit.all.each{|unit| puts "#{unit.id}. #{unit.name}"}
     end
 
     def list_strucs
-        puts 'this option is temporarly unavailable.'
+        Structure.all.each{|struc| puts "#{struc.id}. #{struc.name}"}
     end
 
     def list_techs
-        puts 'this option is temporarly unavailable.'
+        Technology.all.each{|tech| puts "#{tech.id}. #{tech.name}"}
     end
 
-    def first_valid_input?(input_one)
-        if input_one == "civs"
+    # The following methods check for a valid input
+    # This one checks the first input
+    def first_valid_input?(input)
+        if input == "civs"
             true
-        elsif input_one == "units"
+        elsif input == "units"
             true
-        elsif input_one == "strucs"
+        elsif input == "strucs"
             true
-        elsif input_one == "tech"
+        elsif input == "tech"
             true
         else
             false
@@ -82,9 +80,14 @@ class Cli
         end
     end
 
-    def second_valid_input?(input_two)
-        if (input_two < 1 || input_two > (Civilization.all.size))
+    # This one checks if a civ id was selected (1-18)
+    def second_valid_input?(input)
+        if (input >= 1 || input <= (Civilization.all.size))
+            true
+        else
+            false
             puts "That is an invalid response. Please try again."
         end
     end
+
 end
