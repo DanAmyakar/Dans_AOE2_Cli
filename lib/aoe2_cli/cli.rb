@@ -55,24 +55,31 @@ class Cli
         puts "To list all technologies, type 'techs'."
     end   
 
-    def main
-        input = ""
-        main_options
-        footer_one
-        main_input = gets.chomp
-        main_valid_input?(main_input)
-        leave_request(main_input)
+    # Selects the class and gets teh list
+    def get_or_create_list
+        selected_class = Civilization if @input == "civs"
+        selected_class = Unit if @input == "units"
+        selected_class = Structure if @input == "strucs"
+        selected_class = Technology if @input == "techs"
+        selected_class.fill_with_api if selected_class.all == nil
+        selected_class.list
     end
 
-    def get_or_create_list
-        selected_class = Civilization if main_input == "civs"
-        selected_class = Unit if main_input == "units"
-        selected_class = Structure if main_input == "strucs"
-        selected_class = Technology if main_input == "techs"
-        selected_class.fill_with_api if selected_class.all = nil
-        selected_class.list
-        
-        #need to write a method that either gets a list or makes an api call then gets the list
+    # Gets the item deatils
+    def more_info(obj_id)
+        selected_class.more_info(obj_id)
+    end
+
+
+    # Main program script
+    def main
+        main_options
+        footer_one
+        @input = ""
+        @input = gets.chomp
+        main_valid_input?(@input)
+        leave_request(@input)
+        submenu
     end
 
     def get_info_from_id
@@ -87,10 +94,11 @@ class Cli
     def submenu
         get_or_create_list
         sub_options
-        sub_input = get.strip
-        sub_valid_input?(sub_input)
-        main_menu_request?(sub_input)
-        get_info_from_id(sub_input)
+        @input = ""
+        @input = gets.strip
+        sub_valid_input?(@input)
+        main_menu_request?(@input)
+        get_info_from_id(@input)
     end
 
     # Opening method?? need to ask michael about the 'bin/run' file

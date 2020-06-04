@@ -22,6 +22,12 @@ class Civilization
         @@all
     end
 
+    def self.list
+        @@all.each do |obj|
+            puts "#{obj.id}. #{obj.name}"
+        end
+    end
+
     def find_by_id(chosen_id)
         chosen_civ = @@all.select{|civ| civ.id == chosen_id}
     end
