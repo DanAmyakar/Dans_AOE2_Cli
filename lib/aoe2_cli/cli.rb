@@ -2,8 +2,78 @@
 
 class Cli
 
-    def call
+    # Method to greet user
+    def header
         puts "Welcome to the Age of Empires 2 Cli!"
+    end
+    
+    # A footer message for the main menu
+    def footer_one
+        puts "To end this program, type 'leave'."
+    end
+
+    # A footer for sub menus to go back to the main menu
+    def footer_two
+        puts "To go back to the main menu, enter 'back'."
+    end
+
+    # checks the user input to see if they want to leave
+    def leave_request(input)
+        if input == "leave"
+            puts "Goodbye!!"
+            exit
+        end
+    end
+
+    # Returns to the main menu when the user inputs back from a submenu
+    def main_menu_request(input)
+        main if input == "back"
+
+    # Checks the user input for a valid response from the main menu
+    def main_valid_input?(input)
+        if !(input == "leave" || input == "civs" || input == "units" || input == "strucs" || input == "tech")
+            puts "That is not a valid response. Please try again."
+        end
+    end
+
+    # Checks the user input for a valid response from a submenu
+    def sub_valid_input(input)
+        if (input < 1 || input > selected_class.all.size || input != "back")
+            puts "That is not a valid response. Please try again."
+        end
+    end
+
+    # Displays the main menu options
+    def main_options
+        puts "Main menu:"
+        puts "To list all civilizations, type 'civs'."
+        puts "To list all units, type 'units'."
+        puts "To list all structures, type 'strucs'."
+        puts "To list all technologies, type 'techs'."
+    end   
+
+    def main
+        main_options
+        footer_one
+        main_input = gets.stip
+        main_valid_input?(main_input)
+        leave_request(main_input)
+    end
+
+    def submenu
+        get_list
+        
+
+    # Opening method?? need to ask michael about the 'bin/run' file
+    def run
+        header
+        main
+    end
+
+
+
+
+
         Api.get_civs
         face
     end
@@ -11,6 +81,7 @@ class Cli
     def face
         input = ""
         while input != "leave"
+            puts "Main menu:"
             puts "To list all civilizations, type 'civs'."
             puts "To list all units, type 'units'."
             puts "To list all structures, type 'strucs'."
@@ -34,7 +105,9 @@ class Cli
         puts "Goodbye."
     end
 
+    # If civ is selected from main menu...
     def civ_sub_menu
+        puts "Civ selector menu:"
         list_civs
         puts "For more information about a particular civ, type its ID#."
         puts "To go back to the main menu, type 'back'."

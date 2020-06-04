@@ -8,3 +8,6 @@ Bundler.require(:default)
 require_relative './aoe2_cli/api.rb'
 require_relative './aoe2_cli/cli.rb'
 require_relative './aoe2_cli/civilization.rb'
+require_relative './aoe2_cli/unit.rb'
+require_relative './aoe2_cli/structure.rb'
+require_relative './aoe2_cli/tech.rb'
