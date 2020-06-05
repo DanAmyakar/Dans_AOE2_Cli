@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
 class Structure
-
-    def self.fill_with_api
-        Api.get_strucs
-    end
-
-    attr_reader :id, :name, :expansion, :army_type, :team_bonus, :civ_bonus
+    attr_reader :id, :name, :description, :expansion, :age
     @@all = []
     
-    def initialize(attrs) 
-        attrs.each {|attr_key, attr_val| self.send(("#{attr_key}="), attr_val)}
+    def initialize(id, name, description, expansion, age) 
+        @id = id
+        @name = name
+        @description = description
+        @expansion = expansion
+        @age = age
         save
     end
 
@@ -28,12 +27,12 @@ class Structure
         end
     end
 
-    def find_by_id(chosen_id)
-        chosen_civ = @@all.select{|civ| civ.id == chosen_id}
+    def self.find_by_id(chosen_id)
+        chosen_obj = @@all.select{|obj| obj.id == chosen_id}
+        chosen_obj.more_info
     end
 
     def more_info(chosen_id)
-        find_by_id(chosen_id)
-        print "#{@id}. The #{@name}'s have an army type of #{@army_type} and is available in the #{@expansion} expansion.  Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
+        print "#{@id}. The #{@name} is available in the #{@expansion} expansion. #{description}.  Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
     end
 end

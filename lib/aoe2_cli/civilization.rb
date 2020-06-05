@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
 class Civilization
-
-    def self.fill_with_api
-        Api.get_civs
-    end
-
-    attr_reader :id, :name, :expansion, :army_type, :team_bonus, :civ_bonus
+    attr_accessor :id, :name, :expansion, :army_type, :team_bonus, :civ_bonus
     @@all = []
     
-    def initialize(attrs) 
-        attrs.each {|attr_key, attr_val| self.send(("#{attr_key}="), attr_val)}
+    def initialize(id, name, expansion, army_type, team_bonus, civ_bonus, uniq_unit, uniq_tech)
+        @id = id
+        @name = name
+        @expansion = expansion
+        @army_type = army_type
+        @team_bonus = team_bonus
+        @civ_bonus = civ_bonus
+        @uniq_unit = uniq_unit
+        @uniq_tech = uniq_tech
         save
     end
 
@@ -28,12 +30,12 @@ class Civilization
         end
     end
 
-    def find_by_id(chosen_id)
-        chosen_civ = @@all.select{|civ| civ.id == chosen_id}
+    def self.find_by_id(chosen_id)
+        chosen_obj = @@all.find{|obj| obj.id == chosen_id.to_i}
+        chosen_obj.more_info
     end
 
-    def more_info(chosen_id)
-        find_by_id(chosen_id)
-        print "#{@id}. The #{@name}'s have an army type of #{@army_type} and is available in the #{@expansion} expansion.  Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
+    def more_info
+        print "#{@id}. The #{@name}'s have an army type of #{@army_type} and is available in the #{@expansion} expansion. Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
     end
 end
