@@ -31,6 +31,7 @@ class Civilization
     end
 
     def self.find_by_id(chosen_id)
+        system "clear"
         chosen_obj = @@all[(chosen_id - 1)]
         chosen_obj.more_info
     end
