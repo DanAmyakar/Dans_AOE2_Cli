@@ -33,6 +33,6 @@ class Unit
     end
 
     def more_info
-        print "#{@id}. The #{@name} is available in the #{@expansion} expansion. #{description}.  Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
+        print "#{@id}. The #{@name} is available in the #{@expansion} expansion. Description: #{description}."
     end
 end
