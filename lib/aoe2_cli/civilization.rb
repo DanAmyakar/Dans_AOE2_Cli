@@ -4,15 +4,15 @@ class Civilization
     attr_accessor :id, :name, :expansion, :army_type, :team_bonus, :civ_bonus
     @@all = []
     
-    def initialize(id, name, expansion, army_type, team_bonus, civ_bonus, uniq_unit, uniq_tech)
+    def initialize(id, name, expansion, army_type, team_bonus, civ_bonus)
         @id = id
         @name = name
         @expansion = expansion
         @army_type = army_type
         @team_bonus = team_bonus
         @civ_bonus = civ_bonus
-        @uniq_unit = uniq_unit
-        @uniq_tech = uniq_tech
+        #@uniq_unit = uniq_unit
+        #@uniq_tech = uniq_tech
         save
     end
 
@@ -31,7 +31,7 @@ class Civilization
     end
 
     def self.find_by_id(chosen_id)
-        chosen_obj = @@all.find{|obj| obj.id == chosen_id.to_i}
+        chosen_obj = @@all[(chosen_id - 1)]
         chosen_obj.more_info
     end
 

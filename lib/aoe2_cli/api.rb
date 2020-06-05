@@ -14,15 +14,16 @@ class Api
         res = RestClient.get(CIV_URL)
         data = JSON.parse(res.body)
         data["civilizations"].each do |obj|
+            #binding.pry
             id = obj["id"]
             name = obj["name"]
             expansion = obj["expansion"]
             army_type = obj["army_type"]
             team_bonus = obj["team_bonus"]
             civ_bonus = obj["civilization_bonus"]
-            uniq_unit = obj["unique_unit"]
-            uniq_tech = obj["unique_tech"]
-            Civilization.new(id, name, expansion, army_type, team_bonus, civ_bonus, uniq_unit, uniq_tech)
+            #uniq_unit = obj["unique_unit"]
+            #uniq_tech = obj["unique_tech"]
+            Civilization.new(id, name, expansion, army_type, team_bonus, civ_bonus)
         end
     end
 
@@ -31,6 +32,7 @@ class Api
         res = RestClient.get("#{UNIT_URL}")
         data = JSON.parse(res.body)
         data["units"].each do |obj|
+            #binding.pry
             id = obj["id"]
             name = obj["name"]
             description = obj["description"]
@@ -46,6 +48,7 @@ class Api
         res = RestClient.get("#{STRUC_URL}")
         data = JSON.parse(res.body)
         data["structures"].each do |obj|
+            #binding.pry
             id = obj["id"]
             name = obj["name"]
             description = obj["description"]
@@ -61,6 +64,7 @@ class Api
         res = RestClient.get("#{TECH_URL}")
         data = JSON.parse(res.body)
         data["technologies"].each do |obj|
+            #binding.pry
             id = obj["id"]
             name = obj["name"]
             description = obj["description"]

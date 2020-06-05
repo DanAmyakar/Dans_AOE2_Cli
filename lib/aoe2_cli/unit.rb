@@ -28,11 +28,11 @@ class Unit
     end
 
     def self.find_by_id(chosen_id)
-        chosen_obj = @@all.select{|obj| obj.id == chosen_id}
+        chosen_obj = @@all[(chosen_id - 1)]
         chosen_obj.more_info
     end
 
-    def more_info(chosen_id)
+    def more_info
         print "#{@id}. The #{@name} is available in the #{@expansion} expansion. #{description}.  Team Bonus: #{@team_bonus}. Civ Bonus #{@civ_bonus}."
     end
 end
